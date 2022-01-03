@@ -3,3 +3,8 @@ node_modules
 .next
 *.iml
 .DS_Store
+packages/mongo/data/WiredTiger.turtle
+packages/mongo/data/WiredTiger.wt
+packages/mongo/data/journal
+packages/mongo/data/mongod.lock
+packages/mongo/data/diagnostic.data/metrics.*
