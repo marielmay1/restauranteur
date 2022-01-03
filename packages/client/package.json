@@ -1,0 +1,27 @@
+{
+  "name": "restraunteur",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node_modules/.bin/next dev",
+    "build": "node_modules/.bin/next build",
+    "start": "node_modules/.bin/next start"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.4",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.10.0",
+    "axios": "^0.21.0",
+    "graphql": "^15.3.0",
+    "isomorphic-fetch": "^3.0.0",
+    "js-cookie": "^2.2.1",
+    "next": "9.5.5",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "reactstrap": "^8.6.0"
+  },
+  "description": "Find and purchase food from your favorite restaurants.",
+  "main": "index.js",
+  "author": "mariel.alexandra.may@gmail.com",
+  "license": "MIT"
+}
