@@ -7,16 +7,22 @@ import Cookie from "js-cookie"
 
 
 function MyApp(props) {
-    var {cart, addItem, removeItem, user, setUser} = useContext(AppContext)
-    const [state, setState] = useState({cart: cart});
+    let {isAuthenticated, cart, addItem, removeItem, user, setUser} = useContext(AppContext)
+    const [userState, setUserState] = useState({
+        user, isAuthenticated
+    })
+    const [cartState, setCartState] = useState({cart});
     const {Component, pageProps} = props;
 
-
-    setUser = (user) => {
-        setState({user});
+    setUser = (res) => {
+        setUserState({
+            cart,
+            isAuthenticated: res?.user?.confirmed || false,
+            user: res
+        })
     };
     addItem = (item) => {
-        let {items} = state.cart;
+        let {items} = cartState.cart;
         //check for item already in cart
         //if not in cart, add item if item is found increase quanity ++
         let foundItem = true;
@@ -35,14 +41,14 @@ function MyApp(props) {
             let temp = JSON.parse(JSON.stringify(item));
             temp.quantity = 1;
             var newCart = {
-                items: [...state.cart.items, temp],
-                total: state.cart.total + item.price,
+                items: [...cartState.cart.items, temp],
+                total: cartState.cart.total + item.price,
             }
-            setState({cart: newCart})
+            setCartState({cart: newCart})
             console.log(`Total items: ${JSON.stringify(newCart)}`)
         } else {
             // we already have it so just increase quantity ++
-            console.log(`Total so far:  ${state.cart.total}`)
+            console.log(`Total so far:  ${cartState.cart.total}`)
             newCart = {
                 items: items.map((item) => {
                     if (item.id === foundItem.id) {
@@ -51,15 +57,15 @@ function MyApp(props) {
                         return item;
                     }
                 }),
-                total: state.cart.total + item.price,
+                total: cartState.cart.total + item.price,
             }
         }
-        setState({cart: newCart});  // problem is this is not updated yet
-        console.log(`state reset to cart:${JSON.stringify(state)}`)
+        setCartState({cart: newCart});  // problem is this is not updated yet
+        console.log(`state reset to cart:${JSON.stringify(cartState)}`)
 
     };
     removeItem = (item) => {
-        let {items} = state.cart;
+        let {items} = cartState.cart;
         //check for item already in cart
         const foundItem = items.find((i) => i.id === item.id);
         if (foundItem.quantity > 1) {
@@ -71,27 +77,26 @@ function MyApp(props) {
                         return item;
                     }
                 }),
-                total: state.cart.total - item.price,
+                total: cartState.cart.total - item.price,
             }
             //console.log(`NewCart after remove: ${JSON.stringify(newCart)}`)
         } else { // only 1 in the cart so remove the whole item
             console.log(`Try remove item ${JSON.stringify(foundItem)}`)
             const index = items.findIndex((i) => i.id === foundItem.id);
             items.splice(index, 1);
-            var newCart = {items: items, total: state.cart.total - item.price}
+            var newCart = {items: items, total: cartState.cart.total - item.price}
         }
-        setState({cart: newCart});
+        setCartState({cart: newCart});
     }
 
     return (
         <AppContext.Provider value={{
-            cart: state.cart,
-            addItem: addItem,
-            removeItem: removeItem,
-            isAuthenticated: false,
-            user: null,
-            setUser: () => {
-            }
+            cart: cartState.cart,
+            isAuthenticated: userState.isAuthenticated,
+            user: userState.user,
+            addItem,
+            removeItem,
+            setUser
         }}>
             <Head>
                 <link

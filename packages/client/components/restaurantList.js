@@ -32,7 +32,6 @@ function RestaurantList(props) {
       }
     }
   `;
-    console.log("Getting Restaurants", JSON.stringify(GET_RESTAURANTS, null, 2))
     const {loading, error, data} = useQuery(GET_RESTAURANTS)
     if (loading) return <p>Loading...</p>;
     if (error) return <p>ERROR: {JSON.stringify(error)}</p>;

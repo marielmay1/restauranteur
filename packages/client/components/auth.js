@@ -1,5 +1,3 @@
-/* /lib/auth.js */
-
 import {useEffect} from "react";
 import Router from "next/router";
 import Cookie from "js-cookie";
@@ -22,7 +20,7 @@ export const registerUser = (username, email, password) => {
 
                 //resolve the promise to set loading to false in SignUp form
                 resolve(res);
-                //redirect back to home page for restaurance selection
+                //redirect back to home page for restaurant selection
                 Router.push("/");
             })
             .catch((error) => {

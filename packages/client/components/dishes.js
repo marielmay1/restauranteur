@@ -47,8 +47,7 @@ function Dishes({restId}) {
 
     let restaurant = data.restaurant;
 
-    if (restId > 0) {
-
+    if (restId !== 0) {
         return (
             <>
                 {restaurant.dishes.map((res) => (

@@ -1,5 +1,3 @@
-/* /components/Layout.js */
-
 import React, {useContext} from "react";
 import Head from "next/head";
 import Link from "next/link";
@@ -7,7 +5,7 @@ import {Container, Nav, NavItem} from "reactstrap";
 import AppContext from "./context";
 
 const Layout = (props) => {
-    const title = "Welcome to Nextjs";
+    const title = "Restauranteur";
     const {user} = useContext(AppContext);
     return (
         <div>
