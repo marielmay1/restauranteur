@@ -1,5 +1,3 @@
-/* pages/checkout.js */
-
 import React, {useContext} from "react";
 import {Row, Col} from "reactstrap";
 import {loadStripe} from "@stripe/stripe-js";
@@ -16,7 +14,7 @@ function Checkout() {
 
     // load stripe to inject into elements components
     const stripePromise = loadStripe(
-        "pk_test_51HaLhVGgpfLkdZwmHVQcCOdUzwLWqV7umg9EbicemJqLOcLBPDrPtszruyxf4UzqH0lKwaNj5se3tHldNx92nPjI00Zoi8VgBN"
+        'pk_test_51K4doTEsYJ1Hg2wHU92ZhPNARSY8bNBw8dvdt6RcSgVO865z2l8hNy0Xu2oQDNnNFpo0ZPAVSHznXrR3BQkDiwQO00ssTLSIHa'
     );
 
     return (

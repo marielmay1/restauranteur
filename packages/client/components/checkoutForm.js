@@ -1,5 +1,6 @@
 import React, {useState, useContext} from "react";
 import {FormGroup, Label, Input} from "reactstrap";
+import { useRouter } from 'next/router'
 import fetch from "isomorphic-fetch";
 import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import CardSection from "./cardSection";
@@ -7,6 +8,7 @@ import AppContext from "./context";
 import Cookies from "js-cookie";
 
 function CheckoutForm() {
+    const router = useRouter()
     const [data, setData] = useState({
         address: "",
         city: "",
@@ -53,7 +55,6 @@ function CheckoutForm() {
 
         if (!response.ok) {
             setError(response.statusText);
-            console.log("SUCCESS")
         }
 
         // OTHER stripe methods you can use depending on app
@@ -69,6 +70,7 @@ function CheckoutForm() {
         //     card: cardElement,
         //   },
         // });
+        router.push('/order_complete')
     }
 
     return (
