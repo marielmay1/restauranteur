@@ -5,3 +5,6 @@ serve:
 
 dev:
 	@cd packages/client && npm run dev
+
+install:
+	@cd packages/client && npm install

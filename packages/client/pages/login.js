@@ -10,7 +10,7 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import {login} from "../components/auth";
+import {login, oauthGoogle} from "../components/auth";
 import AppContext from "../components/context";
 
 function Login(props) {
@@ -72,7 +72,6 @@ function Login(props) {
                                             style={{height: 50, fontSize: "1.2em"}}
                                         />
                                     </FormGroup>
-
                                     <FormGroup>
                     <span>
                       <a href="">
@@ -100,6 +99,15 @@ function Login(props) {
                                         </Button>
                                     </FormGroup>
                                 </fieldset>
+                                <Button
+                                    style={{}}
+                                    color="primary"
+                                    onClick={() => {
+                                        window.location = 'http://localhost:1337/connect/google'
+                                    }}
+                                >
+                                    Sign In with Google
+                                </Button>
                             </Form>
                         </section>
                     </div>
@@ -144,5 +152,4 @@ function Login(props) {
         </Container>
     );
 }
-
 export default Login;
