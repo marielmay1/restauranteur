@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
+import SocialLink from "../components/socialLink";
+import FormDivider from "../components/formDivider";
 import {useRouter} from "next/router";
 import {
     Container,
@@ -10,7 +12,7 @@ import {
     Label,
     Input,
 } from "reactstrap";
-import {login, oauthGoogle} from "../components/auth";
+import {login} from "../components/auth";
 import AppContext from "../components/context";
 
 function Login(props) {
@@ -19,6 +21,7 @@ function Login(props) {
     const [error, setError] = useState(false);
     const router = useRouter();
     const appContext = useContext(AppContext);
+    const providers = ['google'];
 
     useEffect(() => {
         if (appContext.isAuthenticated) {
@@ -38,6 +41,10 @@ function Login(props) {
                         <div className="header">
                             <img src="http://localhost:1337/uploads/5a60a9d26a764e7cba1099d8b157b5e9.png"/>
                         </div>
+                        <div>
+                            {providers.map(provider => <SocialLink provider={provider} key={provider} />)}
+                        </div>
+                        <FormDivider />
                         <section className="wrapper">
                             {Object.entries(error).length !== 0 &&
                                 error.constructor === Object &&
@@ -99,15 +106,6 @@ function Login(props) {
                                         </Button>
                                     </FormGroup>
                                 </fieldset>
-                                <Button
-                                    style={{}}
-                                    color="primary"
-                                    onClick={() => {
-                                        window.location = 'http://localhost:1337/connect/google'
-                                    }}
-                                >
-                                    Sign In with Google
-                                </Button>
                             </Form>
                         </section>
                     </div>

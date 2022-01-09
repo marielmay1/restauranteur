@@ -2,9 +2,7 @@ import {useEffect} from "react";
 import Router from "next/router";
 import Cookie from "js-cookie";
 import axios from "axios";
-// import client from './firebase'
-// import firebase from "firebase/app"
-// import "firebase/auth"
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 //register a new user
@@ -57,12 +55,6 @@ export const login = (identifier, password) => {
     });
 };
 
-// export const oauthGoogle = async () => {
-//     console.log("google clicked");
-//     const provider = new firebase.auth.GoogleAuthProvider();
-//     const result = client.auth().signInWithPopup(provider)
-//     console.log(result)
-// }
 export const logout = () => {
     //remove token and user cookie
     Cookie.remove("token");

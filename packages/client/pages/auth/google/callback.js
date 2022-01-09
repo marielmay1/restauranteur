@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import React, { useContext, useEffect } from 'react'
+import Router, { useRouter } from 'next/router'
 import axios from 'axios'
+import Cookie from "js-cookie";
+import AppContext from "../../../components/context";
 
 function GoogleAuthCallback() {
-    const [auth, setAuth] = useState()
-    const location = useRouter().pathname
+    const router = useRouter();
+    const location = router.asPath.replace(router.pathname, "");
+    const appContext = useContext(AppContext);
     useEffect(() => {
         if (!location) {
             return
         }
-        const { search } = location
         axios({
             method: 'GET',
-            url: `http://localhost:1337/auth/google/callback?${search}`,
+            url: `http://localhost:1337/auth/google/callback?${location}`,
         })
-            .then((res) => res.data)
-            .then(setAuth)
+            .then((res) => {
+                Cookie.set("token", res.data.jwt);
+                appContext.setUser(res.data.user);
+                Router.push("/");
+            })
+
     }, [location])
 
     return (
         <div>
-            {auth && (
-                <>
-                    <div>Jwt: {auth.jwt}</div>
-                    <div>User Id: {auth.user.id}</div>
-                    <div>Provider: {auth.user.provider}</div>
-                </>
-            )}
+
         </div>
     )
 }
