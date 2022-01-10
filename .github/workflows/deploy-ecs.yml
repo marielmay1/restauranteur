@@ -68,9 +68,13 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           make build
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker images
+          docker push $ECR_REGISTRY/restauranteur_strapi:latest
+          docker push $ECR_REGISTRY/restauranteur_client:latest
+          docker push $ECR_REGISTRY/restauranteur_mongo:latest
+          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_strapi:latest"
+          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_client:latest"
+          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_mongo:latest"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
