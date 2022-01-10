@@ -11,3 +11,6 @@ install:
 
 build:
 	@docker-compose build
+
+push:
+	@docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
