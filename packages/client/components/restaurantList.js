@@ -1,8 +1,5 @@
 import {gql, useQuery} from '@apollo/client';
-import Dishes from "./dishes";
 import Router from "next/router";
-import {useContext, useState} from 'react';
-import AppContext from "./context";
 import {
     Button,
     Card,
@@ -15,9 +12,6 @@ import {
 } from "reactstrap";
 
 function RestaurantList(props) {
-    const [restaurantID, setRestaurantID] = useState(null)
-    const {cart} = useContext(AppContext);
-    const [state, setState] = useState(cart)
     const GET_RESTAURANTS = gql`
     query {
       restaurants {
@@ -40,9 +34,6 @@ function RestaurantList(props) {
         return res.name.toLowerCase().includes(props.search)
     })
 
-    const renderDishes = (restaurantID) => {
-        return (<Dishes restId={restaurantID}> </Dishes>)
-    };
     if (searchQuery.length > 0) {
         const restList = searchQuery.map((res) => (
             <Col xs="6" sm="4" key={res.id}>
@@ -70,7 +61,6 @@ function RestaurantList(props) {
         return (
             <Container>
                 <Row xs='3'>{restList}</Row>
-                {restaurantID ?<Row xs='3'>{renderDishes(restaurantID)}</Row> : <div></div>}
             </Container>
         )
     } else {

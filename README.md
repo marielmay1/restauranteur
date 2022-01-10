@@ -51,9 +51,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - [x] The user can log out of the account
 - [x] Home page
   - [x] A list of restaurants is displayed
-- [ ] Search functionality
+- [x] Search functionality
   - [x] User can search for restaurants from the home page
-  - [ ] User can search for dishes from a restaurant page
+  - [x] User can search for dishes from a restaurant page
 - [x] Cart functionality
   - [x] User can add dishes to cart
   - [x] User can remove dishes from cart

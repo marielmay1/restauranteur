@@ -1,12 +1,10 @@
 import React, {useContext, useState} from "react";
 import { useRouter } from 'next/router'
 import AppContext from "../../components/context";
-import {Container, Input, InputGroup, InputGroupAddon} from "reactstrap";
+import {Input, InputGroup, InputGroupAddon} from "reactstrap";
 import Cart from "../../components/cart";
 import {gql, useQuery} from '@apollo/client';
 import Dishes from "../../components/dishes";
-
-
 
 function Restauraunt() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
@@ -25,6 +23,15 @@ function Restauraunt() {
         image {
           url
         }
+        dishes {
+          id
+          name
+          description
+          price
+          image {
+            url
+          }
+        }
       }
     }
   `;
@@ -34,6 +41,10 @@ function Restauraunt() {
     if (!data) return <p>Not found</p>;
     const restaurant = data.restaurant;
     console.log(`Query Data: ${JSON.stringify(restaurant, null, 2)}`)
+
+    const filteredDishes = restaurant.dishes.filter((dish) => {
+        return dish.name.toLowerCase().includes(query.toLowerCase())
+    })
 
     return (
         <div>
@@ -49,10 +60,8 @@ function Restauraunt() {
                     />
                 </InputGroup><br></br>
             </div>
-            <Container>
-                <Dishes restId={restaurant.id}></Dishes>
-                { cart.items.length > 0 ? <Cart canOrder={true}> </Cart> : "" }
-            </Container>
+            <Dishes dishes={filteredDishes} restId={restaurant.id}></Dishes>
+            { cart.items.length > 0 ? <Cart canOrder={true}> </Cart> : "" }
         </div>
     );
 }
