@@ -3,17 +3,10 @@ import {useRouter} from "next/router";
 import {Button, Card, CardBody, CardTitle, Badge} from "reactstrap";
 import AppContext from "./context"
 import Link from "next/link"
-// we can pass cart data in via props method 
-// the alternative is using useContext as below
-function Cart() {
-    let isAuthenticated = true;
-    let {cart, addItem, removeItem} = useContext(AppContext);
-    //const [cartA, setCartA] = useState({cart})
-    //cart = value.cart;
-    //console.log('props:'+ JSON.stringify(value));
-    console.log(`in CART: ${JSON.stringify(cart)}`)
 
-    //   problem is that cart may not be set
+function Cart(props) {
+    let {cart, addItem, removeItem} = useContext(AppContext);
+    console.log(`in CART: ${JSON.stringify(cart)}`)
     const router = useRouter();
     console.log(`Router Path: ${JSON.stringify(router)}`)
     const renderItems = () => {
@@ -75,37 +68,31 @@ function Cart() {
         return (
             <div>
                 <Badge style={{width: 200, padding: 10}} color="light">
-                    <h5 style={{fontWeight: 100, color: "gray"}}>Total:</h5>
-                    <h3>${cart.total}</h3>
+                    <h5 style={{fontWeight: 100, color: "black"}}>Total:</h5>
+                    <h3 style={{color: "black"}}>${cart.total}</h3>
                 </Badge>
-                <Link href="/checkout/">
-                    <Button style={{width: "60%"}} color="primary">
-                        <a>Order</a>
-                    </Button>
-                </Link>
+                {props.canOrder ?
+                    <Link href="/checkout/">
+                        <Button style={{width: "60%"}} color="primary">
+                            <a>Order</a>
+                        </Button>
+                    </Link> : ""}
             </div>
         )
     }
 
-// return Cart
     return (
         <div>
             <h1> Cart</h1>
             <Card style={{padding: "10px 5px"}} className="cart">
-                <CardTitle style={{margin: 10}}>Your Order:</CardTitle>
+                <CardTitle style={{margin: 10}}>Your Order</CardTitle>
                 <hr/>
                 <CardBody style={{padding: 10}}>
                     <div style={{marginBottom: 6}}>
                         <small>Items:</small>
                     </div>
-                    <div>
-                        {renderItems()}
-                    </div>
-                    <div>
-                        {checkoutItems()}
-                    </div>
-
-                    {console.log(`Router Path: ${router.asPath}`)}
+                    <div>{renderItems()}</div>
+                    <div>{checkoutItems()}</div>
                 </CardBody>
             </Card>
             <style jsx>{`

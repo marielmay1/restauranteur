@@ -1,15 +1,17 @@
 import {useContext, useState} from "react";
 import Head from "next/head";
 import AppContext from "../components/context";
-import Home from "./index"
 import Layout from "../components/layout"
-import Cookie from "js-cookie"
+import {ApolloProvider, ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
 
 function MyApp(props) {
-    let {isAuthenticated, cart, addItem, removeItem, user, setUser} = useContext(AppContext)
+    let {isAuthenticated, cart, resetCart, addItem, removeItem, user, setUser, toast, setToast} = useContext(AppContext)
     const [userState, setUserState] = useState({
         user, isAuthenticated
-    })
+    });
+    const [toastState, setToastState] = useState({
+        toast
+    });
     const [cartState, setCartState] = useState({cart});
     const {Component, pageProps} = props;
 
@@ -20,6 +22,12 @@ function MyApp(props) {
             user: res
         })
     };
+    setToast = (message) => {
+        setToastState({toast: message})
+    }
+
+    let newCart = null;
+
     addItem = (item) => {
         let {items} = cartState.cart;
         //check for item already in cart
@@ -33,20 +41,15 @@ function MyApp(props) {
             foundItem = false;
         }
         console.log(`Found Item value: ${JSON.stringify(foundItem)}`)
-        // if item is not new, add to cart, set quantity to 1
         if (!foundItem) {
-            //set quantity property to 1
-
             let temp = JSON.parse(JSON.stringify(item));
             temp.quantity = 1;
-            var newCart = {
+            newCart = {
                 items: [...cartState.cart.items, temp],
                 total: cartState.cart.total + item.price,
             }
-            setCartState({cart: newCart})
             console.log(`Total items: ${JSON.stringify(newCart)}`)
         } else {
-            // we already have it so just increase quantity ++
             console.log(`Total so far:  ${cartState.cart.total}`)
             newCart = {
                 items: items.map((item) => {
@@ -61,7 +64,6 @@ function MyApp(props) {
         }
         setCartState({cart: newCart});  // problem is this is not updated yet
         console.log(`state reset to cart:${JSON.stringify(cartState)}`)
-
     };
     removeItem = (item) => {
         let {items} = cartState.cart;
@@ -87,15 +89,29 @@ function MyApp(props) {
         }
         setCartState({cart: newCart});
     }
-
+    resetCart = () => {
+        setCartState({
+            cart: {
+                items: [],
+                total: 0
+            }
+        })
+    }
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
+    const link = new HttpLink({uri: `${API_URL}/graphql`})
+    const cache = new InMemoryCache()
+    const client = new ApolloClient({link, cache});
     return (
         <AppContext.Provider value={{
             cart: cartState.cart,
             isAuthenticated: userState.isAuthenticated,
             user: userState.user,
+            toast: toastState.toast,
             addItem,
             removeItem,
-            setUser
+            setUser,
+            setToast,
+            resetCart
         }}>
             <Head>
                 <link
@@ -105,9 +121,10 @@ function MyApp(props) {
                     crossOrigin="anonymous"
                 />
             </Head>
-
             <Layout>
-                <Component {...pageProps} />
+                <ApolloProvider client={client}>
+                    <Component {...pageProps} />
+                </ApolloProvider>
             </Layout>
 
         </AppContext.Provider>

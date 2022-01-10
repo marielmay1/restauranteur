@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
-import {FormGroup, Label, Input} from "reactstrap";
-import { useRouter } from 'next/router'
+import {FormGroup, FormFeedback, Label, Input} from "reactstrap";
+import Router from "next/router";
 import fetch from "isomorphic-fetch";
 import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import CardSection from "./cardSection";
@@ -8,11 +8,16 @@ import AppContext from "./context";
 import Cookies from "js-cookie";
 
 function CheckoutForm() {
-    const router = useRouter()
     const [data, setData] = useState({
         address: "",
+        isValidAddress: null,
+        isInvalidAddress: null,
         city: "",
+        isValidCity: null,
+        isInvalidCity: null,
         state: "",
+        isValidState: null,
+        isInvalidState: null,
         stripe_id: "",
     });
     const [error, setError] = useState("");
@@ -20,22 +25,26 @@ function CheckoutForm() {
     const elements = useElements();
     const appContext = useContext(AppContext);
 
-    function onChange(e) {
-        // set the key = to the name property equal to the value typed
-        const updateItem = (data[e.target.name] = e.target.value);
-        // update the state data object
-        setData({...data, updateItem});
-    }
+    const allValid = () => data.isValidAddress && data.isValidCity && data.isValidState
 
     async function submitOrder() {
-        // event.preventDefault();
+        // does user have items in their cart
+        if(appContext.cart.total === 0) {
+            alert("You cannot complete an order with an empty card.")
+            return
+        }
+        // is the form filled out correctly
+        if(!allValid()) {
+            setData({
+                ...data,
+                isInvalidState: isValid(data.state) ? null : true,
+                isInvalidCity: isValid(data.city) ? null : true,
+                isInvalidAddress: isValid(data.address) ? null : true
+            })
+            return
+        }
 
-        // // Use elements.getElement to get a reference to the mounted Element.
         const cardElement = elements.getElement(CardElement);
-
-        // // Pass the Element directly to other Stripe.js methods:
-        // // e.g. createToken - https://stripe.com/docs/js/tokens_sources/create_token?type=cardElement
-        // get token back from stripe to process credit card
         const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
         const token = await stripe.createToken(cardElement);
@@ -55,22 +64,73 @@ function CheckoutForm() {
 
         if (!response.ok) {
             setError(response.statusText);
+            return
         }
+        appContext.setToast(false)
+        appContext.setToast({
+            header: 'Order Complete!',
+            message: 'Your order is now complete.'
+        })
+        appContext.resetCart()
+        await Router.push('/')
+    }
+    const isValid = (text) => text != null && text !== ''
 
-        // OTHER stripe methods you can use depending on app
-        // // or createPaymentMethod - https://stripe.com/docs/js/payment_intents/create_payment_method
-        // stripe.createPaymentMethod({
-        //   type: "card",
-        //   card: cardElement,
-        // });
+    const onAddressChange = (e) => {
+        const valid = isValid(e.target.value)
+        if(valid) {
+            setData({
+                ...data,
+                isValidAddress: true,
+                isInvalidAddress: null,
+                address: e.target.value
+            })
+        } else {
+            setData({
+                ...data,
+                address: "",
+                isValidAddress: null,
+                isInvalidAddress: true
+            })
+        }
+    }
 
-        // // or confirmCardPayment - https://stripe.com/docs/js/payment_intents/confirm_card_payment
-        // stripe.confirmCardPayment(paymentIntentClientSecret, {
-        //   payment_method: {
-        //     card: cardElement,
-        //   },
-        // });
-        router.push('/order_complete')
+    const onCityChange = (e) => {
+        const valid = isValid(e.target.value)
+        if(valid) {
+            setData({
+                ...data,
+                isValidCity: true,
+                isInvalidCity: null,
+                city: e.target.value
+            })
+        } else {
+            setData({
+                ...data,
+                isValidCity: null,
+                isInvalidCity: true,
+                city: ""
+            })
+        }
+    }
+
+    const onStateChange = (e) => {
+        const valid = isValid(e.target.value)
+        if(valid) {
+            setData({
+                ...data,
+                isValidState: true,
+                isInvalidState: null,
+                state: e.target.value
+            })
+        } else {
+            setData({
+                ...data,
+                isValidState: null,
+                isInvalidState: true,
+                city: ""
+            })
+        }
     }
 
     return (
@@ -80,22 +140,36 @@ function CheckoutForm() {
             <FormGroup style={{display: "flex"}}>
                 <div style={{flex: "0.90", marginRight: 10}}>
                     <Label>Address</Label>
-                    <Input name="address" onChange={onChange}/>
+                    <Input
+                        name="address"
+                        valid={data.isValidAddress}
+                        invalid={data.isInvalidAddress}
+                        onChange={onAddressChange}
+                    />
+                    {data.isInvalidAddress ? <FormFeedback>Address cannot be empty</FormFeedback> : ""}
                 </div>
             </FormGroup>
             <FormGroup style={{display: "flex"}}>
                 <div style={{flex: "0.65", marginRight: "6%"}}>
                     <Label>City</Label>
-                    <Input name="city" onChange={onChange}/>
+                    <Input
+                        name="city"
+                        valid={data.isValidCity}
+                        invalid={data.isInvalidCity}
+                        onChange={onCityChange}/>
+                    {data.isInvalidCity ? <FormFeedback>City cannot be empty</FormFeedback> : ""}
                 </div>
                 <div style={{flex: "0.25", marginRight: 0}}>
                     <Label>State</Label>
-                    <Input name="state" onChange={onChange}/>
+                    <Input
+                        name="state"
+                        valid={data.isValidState}
+                        invalid={data.isInvalidState}
+                        onChange={onStateChange}/>
+                    {data.isInvalidState ? <FormFeedback>State cannot be empty</FormFeedback> : ""}
                 </div>
             </FormGroup>
-
             <CardSection data={data} stripeError={error} submitOrder={submitOrder}/>
-
             <style jsx global>
                 {`
                   .paper {

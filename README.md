@@ -40,3 +40,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Features 
+
+- [x] Create an account with an email address and password
+  - [x] A success message is received upon account creation
+  - [x] The email address or username appears at the top right corner when logged in
+- [x] Log in to account
+  - [x] The user can log in with an email address, password, or OAuth2 authentication
+  - [x] The user can log out of the account
+- [x] Home page
+  - [x] A list of restaurants is displayed
+- [ ] Search functionality
+  - [x] User can search for restaurants from the home page
+  - [ ] User can search for dishes from a restaurant page
+- [x] Cart functionality
+  - [x] User can add dishes to cart
+  - [x] User can remove dishes from cart
+  - [x] Price updates automatically
+  - [x] User can update quantity in cart
+- [x] Checkout
+  - [x] User can check out with Stripe
+  - [x] User receives success message
+  - [x] Input fields are validated

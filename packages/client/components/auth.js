@@ -56,6 +56,7 @@ export const login = (identifier, password) => {
 };
 
 export const logout = () => {
+    console.log("logging out...")
     //remove token and user cookie
     Cookie.remove("token");
     delete window.__user;

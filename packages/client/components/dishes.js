@@ -1,22 +1,7 @@
-import {useRouter} from "next/router"
 import {gql, useQuery} from '@apollo/client';
-import {useState, useContext} from 'react'
-import AppContext from "./context"
-import {
-    Button,
-    Card,
-    CardBody,
-    CardImg,
-    CardText,
-    CardTitle,
-    Row,
-    Col
-} from "reactstrap";
+import Dish from "./dish";
 
 function Dishes({restId}) {
-    const [restaurantID, setRestaurantID] = useState()
-    const {addItem} = useContext(AppContext)
-
     const GET_RESTAURANT_DISHES = gql`
   query($id: ID!) {
     restaurant(id: $id) {
@@ -34,13 +19,11 @@ function Dishes({restId}) {
     }
   }
 `;
-
-    const router = useRouter();
-
     const {loading, error, data} = useQuery(GET_RESTAURANT_DISHES, {
         variables: {id: restId},
     });
 
+    console.log(error)
     if (loading) return <p>Loading...</p>;
     if (error) return <p>ERROR here</p>;
     if (!data) return <p>Not found</p>;
@@ -51,29 +34,13 @@ function Dishes({restId}) {
         return (
             <>
                 {restaurant.dishes.map((res) => (
-                    <Col xs="6" sm="4" style={{padding: 0}} key={res.id}>
-                        <Card style={{margin: "0 10px"}}>
-                            <CardImg
-                                top={true}
-                                style={{height: 150, width: 150}}
-                                src={`http://localhost:1337${res.image.url}`}
-                            />
-                            <CardBody>
-                                <CardTitle>{res.name}</CardTitle>
-                                <CardText>{res.description}</CardText>
-                            </CardBody>
-                            <div className="card-footer">
-                                <Button color="info"
-                                        outline
-                                        color="primary"
-                                        onClick={() => addItem(res)}
-                                >
-                                    + Add To Cart
-                                </Button>
-
-                            </div>
-                        </Card>
-                    </Col>
+                    <Dish
+                        id={res.id}
+                        name={res.name}
+                        desciption={res.description}
+                        price={res.price}
+                        image={res.image}
+                    />
                 ))}
             </>
         )

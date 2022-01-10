@@ -93,11 +93,14 @@ function Login(props) {
                                                 login(data.identifier, data.password)
                                                     .then((res) => {
                                                         setLoading(false);
-                                                        // set authed User in global context to update header/app state
+                                                        appContext.setToast({
+                                                            header: 'Logged in Successfully!',
+                                                            message: `${res.data.user.username} has logged in successfully!`
+                                                        })
                                                         appContext.setUser(res.data.user);
                                                     })
                                                     .catch((error) => {
-                                                        //setError(error.response.data);
+                                                        setError(error.response.data);
                                                         setLoading(false);
                                                     });
                                             }}

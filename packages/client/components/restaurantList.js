@@ -1,23 +1,21 @@
 import {gql, useQuery} from '@apollo/client';
-import Dishes from "./dishes"
+import Dishes from "./dishes";
+import Router from "next/router";
 import {useContext, useState} from 'react';
-
-
-import AppContext from "./context"
+import AppContext from "./context";
 import {
     Button,
     Card,
     CardBody,
     CardImg,
     CardText,
-    CardTitle,
     Container,
     Row,
     Col
 } from "reactstrap";
 
 function RestaurantList(props) {
-    const [restaurantID, setRestaurantID] = useState(0)
+    const [restaurantID, setRestaurantID] = useState(null)
     const {cart} = useContext(AppContext);
     const [state, setState] = useState(cart)
     const GET_RESTAURANTS = gql`
@@ -38,14 +36,10 @@ function RestaurantList(props) {
     if (!data) return <p>Not found</p>;
     console.log(`Query Data: ${data.restaurants}`)
 
-
     const searchQuery = data.restaurants.filter((res) => {
         return res.name.toLowerCase().includes(props.search)
     })
 
-    const restId = searchQuery[0].id
-
-    // definet renderer for Dishes
     const renderDishes = (restaurantID) => {
         return (<Dishes restId={restaurantID}> </Dishes>)
     };
@@ -64,7 +58,10 @@ function RestaurantList(props) {
                         <CardText>{res.description}</CardText>
                     </CardBody>
                     <div className="card-footer">
-                        <Button color="info" onClick={() => setRestaurantID(res.id)}>{res.name}</Button>
+                        <Button
+                            color="info"
+                            onClick={() => Router.push(`/restaurant/${res.id}`)}>{res.name}
+                        </Button>
                     </div>
                 </Card>
             </Col>
@@ -73,7 +70,7 @@ function RestaurantList(props) {
         return (
             <Container>
                 <Row xs='3'>{restList}</Row>
-                <Row xs='3'>{renderDishes(restaurantID)}</Row>
+                {restaurantID ?<Row xs='3'>{renderDishes(restaurantID)}</Row> : <div></div>}
             </Container>
         )
     } else {

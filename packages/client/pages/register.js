@@ -81,11 +81,6 @@ const Register = () => {
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                    <span>
-                      <a href="">
-                        <small>Forgot Password?</small>
-                      </a>
-                    </span>
                                         <Button
                                             style={{float: "right", width: 120}}
                                             color="primary"
@@ -96,12 +91,14 @@ const Register = () => {
                                                     .then((res) => {
                                                         // set authed user in global context object
                                                         appContext.setUser(res.data.user);
+                                                        appContext.setToast({
+                                                            header: 'Account Created Successfully',
+                                                            message: `${res.data.user.username} has created a new account!!`
+                                                        })
                                                         setLoading(false);
-                                                        console.log(`registered user: ${JSON.stringify(res.data)}`)
                                                     })
                                                     .catch((error) => {
-                                                        console.log(`error in register: ${error}`)
-                                                        //setError(error.response.data);
+                                                        setError(error.response.data);
                                                         setLoading(false);
                                                     });
                                             }}

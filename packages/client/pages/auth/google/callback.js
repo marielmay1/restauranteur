@@ -19,6 +19,10 @@ function GoogleAuthCallback() {
             .then((res) => {
                 Cookie.set("token", res.data.jwt);
                 appContext.setUser(res.data.user);
+                appContext.setToast({
+                    header: 'Logged in Successfully',
+                    message: `${res.data.user.username} has logged in successfully!`
+                })
                 Router.push("/");
             })
 

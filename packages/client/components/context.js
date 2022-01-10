@@ -11,9 +11,12 @@ const AppContext = React.createContext(
             items: [],
             total: 0
         },
+        resetCart: () => {},
         addItem: () => {},
         removeItem: () => {},
         user: false,
-        setUser: () => {}
+        setUser: () => {},
+        toast: false,
+        setToast: (toast) => {}
     });
 export default AppContext;
