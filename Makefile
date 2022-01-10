@@ -8,3 +8,6 @@ dev:
 
 install:
 	@cd packages/client && npm install
+
+build:
+	@docker-compose build
