@@ -29,7 +29,6 @@ on:
   push:
     branches:
       - main
-
 env:
   AWS_REGION: us-east-1                       # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: restauranteur               # set this to your Amazon ECR repository name
@@ -65,28 +64,20 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           make build
-          docker tag restauranteur_strapi:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest
-          docker tag restauranteur_client:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest
-          docker tag restauranteur_mongo:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest"
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest"
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest"
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          make tag
+#          make push
+#      - name: Fill in the new image ID in the Amazon ECS task definition
+#        id: task-def
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#          container-name: ${{ env.CONTAINER_NAME }}
+#          image: ${{ steps.build-image.outputs.image }}
+#
+#      - name: Deploy Amazon ECS task definition
+#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#        with:
+#          task-definition: ${{ steps.task-def.outputs.task-definition }}
+#          service: ${{ env.ECS_SERVICE }}
+#          cluster: ${{ env.ECS_CLUSTER }}
+#          wait-for-service-stability: true
