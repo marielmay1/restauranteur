@@ -1,9 +1,7 @@
 import React, {useContext, useState} from "react";
 import Cart from "../components/cart"
-import {ApolloProvider, ApolloClient, HttpLink, InMemoryCache} from '@apollo/client';
 import RestaurantList from '../components/restaurantList';
 import {InputGroup, InputGroupAddon, Input} from "reactstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import AppContext from "../components/context";
 
 function Home() {

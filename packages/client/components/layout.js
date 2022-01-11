@@ -2,12 +2,12 @@ import React, {useContext} from "react";
 import Router from "next/router";
 import Head from "next/head";
 import Link from "next/link";
-import {Dropdown} from 'react-bootstrap';
 import {
     Container,
     Nav,
     NavItem,
-} from "reactstrap";
+    Dropdown
+} from "react-bootstrap";
 import AppContext from "./context";
 import Toast from "./toast";
 import {logout} from "./auth";
@@ -45,7 +45,7 @@ const Layout = (props) => {
                 <Nav className="navbar navbar-dark bg-dark">
                     <NavItem>
                         <Link href="/">
-                            <a className="navbar-brand">Home</a>
+                            <a style={{marginLeft: "10px"}} className="navbar-brand">Home</a>
                         </Link>
                     </NavItem>
                     <NavItem className="ml-auto">

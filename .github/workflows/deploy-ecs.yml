@@ -65,15 +65,15 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           make build
-          docker tag restauranteur_strapi:latest $ECR_REGISTRY/restauranteur_strapi:latest
-          docker tag restauranteur_client:latest $ECR_REGISTRY/restauranteur_client:latest
-          docker tag restauranteur_mongo:latest $ECR_REGISTRY/restauranteur_mongo:latest
-          docker push $ECR_REGISTRY/restauranteur_strapi:latest
-          docker push $ECR_REGISTRY/restauranteur_client:latest
-          docker push $ECR_REGISTRY/restauranteur_mongo:latest
-          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_strapi:latest"
-          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_client:latest"
-          echo "::set-output name=image::$ECR_REGISTRY/restauranteur_mongo:latest"
+          docker tag restauranteur_strapi:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest
+          docker tag restauranteur_client:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest
+          docker tag restauranteur_mongo:latest $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_strapi:latest"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_client:latest"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY/restauranteur_mongo:latest"
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def

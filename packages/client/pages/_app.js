@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import Head from "next/head";
 import AppContext from "../components/context";
 import Layout from "../components/layout"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {ApolloProvider, ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
 
 function MyApp(props) {
@@ -126,11 +127,8 @@ function MyApp(props) {
                     <Component {...pageProps} />
                 </ApolloProvider>
             </Layout>
-
         </AppContext.Provider>
     );
-
 }
-
 
 export default MyApp;
