@@ -6,6 +6,7 @@ import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import CardSection from "./cardSection";
 import AppContext from "./context";
 import Cookies from "js-cookie";
+import config from "./config"
 
 function CheckoutForm() {
     const [data, setData] = useState({
@@ -45,11 +46,10 @@ function CheckoutForm() {
         }
 
         const cardElement = elements.getElement(CardElement);
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
         const token = await stripe.createToken(cardElement);
         const userToken = Cookies.get("token");
-        const response = await fetch(`${API_URL}/orders`, {
+        const response = await fetch(`${config.api.host}/orders`, {
             method: "POST",
             headers: userToken && {Authorization: `Bearer ${userToken}`},
             body: JSON.stringify({

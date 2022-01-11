@@ -4,6 +4,7 @@ import AppContext from "../components/context";
 import Layout from "../components/layout"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ApolloProvider, ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
+import config from "../components/config";
 
 function MyApp(props) {
     let {isAuthenticated, cart, resetCart, addItem, removeItem, user, setUser, toast, setToast} = useContext(AppContext)
@@ -98,8 +99,7 @@ function MyApp(props) {
             }
         })
     }
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
-    const link = new HttpLink({uri: `${API_URL}/graphql`})
+    const link = new HttpLink({uri: `${config.api.host}/graphql`})
     const cache = new InMemoryCache()
     const client = new ApolloClient({link, cache});
     return (

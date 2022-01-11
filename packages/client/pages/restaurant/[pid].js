@@ -7,8 +7,6 @@ import {gql, useQuery} from '@apollo/client';
 import Dishes from "../../components/dishes";
 
 function Restauraunt() {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
-    console.log(`URL: ${API_URL}`)
     const router = useRouter()
     const { pid } = router.query
     const [query, setQuery] = useState("");

@@ -33,7 +33,35 @@ push:
 	@docker push $(REGISTRY)/$(CLIENT):$(TAG)
 
 test:
-	@cd packages/client && heroku container:push web --app restauranteur-app
+	@cd packages/mongo && heroku container:push worker --app restauranteur-strapi
+	@cd packages/strapi && heroku container:push web --app restauranteur-strapi
 
 release:
-	@heroku container:release web --app restauranteur-app
+	@heroku container:release web --app restauranteur-strapi
+
+thing:
+	@cd packages/client && docker build . -t $(CLIENT):$(TAG)
+
+doit:
+	@docker run -p 5000:5000 -e PORT=5000 $(CLIENT):$(TAG)
+
+create:
+	@heroku create restauranteur-client
+	@heroku create restauranteur-mongo
+	@heroku create restauranteur-strapi
+
+#curl --netrc -X PATCH https://api.heroku.com/apps/$APP_ID_OR_NAME/formation \
+#  -d '{
+#  "updates": [
+#    {
+#      "type": "web",
+#      "docker_image": "$WEB_DOCKER_IMAGE_ID"
+#    },
+#    {
+#      "type": "worker",
+#      "docker_image": "$WORKER_DOCKER_IMAGE_ID"
+#    }
+#  ]
+#}' \
+#  -H "Content-Type: application/json" \
+#  -H "Accept: application/vnd.heroku+json; version=3.docker-releases"

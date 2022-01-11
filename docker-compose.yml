@@ -2,6 +2,8 @@ version: '3'
 services:
   client:
     build: 'packages/client/.'
+    environment:
+      - PORT=${PORT}
     ports:
       - '3000:3000'
     depends_on:

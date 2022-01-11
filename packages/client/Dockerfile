@@ -17,6 +17,7 @@ COPY . /app
 
 RUN ["npm", "run", "build"]
 ENV PORT 3000
+ENV STRAPI_API_HOST http://localhost:1337
 EXPOSE $PORT
 
-CMD ["npm", "run", "dev"]
+CMD node_modules/.bin/next dev -p ${PORT}

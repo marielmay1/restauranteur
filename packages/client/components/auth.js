@@ -2,9 +2,8 @@ import {useEffect} from "react";
 import Router from "next/router";
 import Cookie from "js-cookie";
 import axios from "axios";
+import config from "./config"
 
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 //register a new user
 export const registerUser = (username, email, password) => {
     //prevent function from being ran on the server
@@ -13,7 +12,7 @@ export const registerUser = (username, email, password) => {
     }
     return new Promise((resolve, reject) => {
         axios
-            .post(`${API_URL}/auth/local/register`, {username, email, password})
+            .post(`${config.api.host}/auth/local/register`, {username, email, password})
             .then((res) => {
                 //set token response from Strapi for server validation
                 Cookie.set("token", res.data.jwt);
@@ -38,7 +37,7 @@ export const login = (identifier, password) => {
 
     return new Promise((resolve, reject) => {
         axios
-            .post(`${API_URL}/auth/local/`, {identifier, password})
+            .post(`${config.api.host}/auth/local/`, {identifier, password})
             .then((res) => {
                 //set token response from Strapi for server validation
                 Cookie.set("token", res.data.jwt);

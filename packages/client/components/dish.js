@@ -2,13 +2,14 @@ import {Col} from "reactstrap";
 import {Button, Card} from "react-bootstrap";
 import {useContext} from "react";
 import AppContext from "./context";
+import config from "./config"
 
 function Dish({dish}) {
     const {addItem} = useContext(AppContext)
     return (
         <Col xs="6" sm="4" style={{padding: 0}} key={dish.id}>
             <Card style={{width: '18rem'}}>
-                <Card.Img variant="top" src={`http://localhost:1337${dish.image.url}`}/>
+                <Card.Img variant="top" src={`${config.api.host}${dish.image.url}`}/>
                 <Card.Body>
                     <Card.Title>{dish.name}</Card.Title>
                     <Card.Text>{dish.description}</Card.Text>

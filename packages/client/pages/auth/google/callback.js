@@ -3,6 +3,7 @@ import Router, { useRouter } from 'next/router'
 import axios from 'axios'
 import Cookie from "js-cookie";
 import AppContext from "../../../components/context";
+import config from "../../../components/config";
 
 function GoogleAuthCallback() {
     const router = useRouter();
@@ -14,7 +15,7 @@ function GoogleAuthCallback() {
         }
         axios({
             method: 'GET',
-            url: `http://localhost:1337/auth/google/callback?${location}`,
+            url: `${config.api.host}/auth/google/callback?${location}`,
         })
             .then((res) => {
                 Cookie.set("token", res.data.jwt);

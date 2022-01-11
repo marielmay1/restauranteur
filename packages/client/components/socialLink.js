@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from './button';
+import config from './config';
 
 function SocialLink({provider}) {
     return (
         <div>
-            <a href={`http://localhost:1337/connect/${provider}`} className="link">
+            <a href={`${config.api.host}/connect/${provider}`} className="link">
                 <Button type="button" social={provider}>
                     <i className={`fab fa-${provider}`}/>
                     {provider}
