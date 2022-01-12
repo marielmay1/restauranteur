@@ -38,18 +38,18 @@ heroku-push: heroku-login
 	@cd packages/client && heroku container:push web --app restauranteur-client
 	@cd packages/strapi && heroku container:push web --app restauranteur-strapi
 
-heroku-push-client: heroku-login
+heroku-push-client: build-client heroku-login
 	@cd packages/client && heroku container:push web --app restauranteur-client
 
-heroku-push-strapi: heroku-login
+heroku-push-strapi: build-strapi heroku-login
 	@cd packages/strapi && heroku container:push web --app restauranteur-strapi
 
 heroku-release:
 	@heroku container:release web --app restauranteur-client
 	@heroku container:release web --app restauranteur-strapi
 
-heroku-release-client:
+heroku-release-client: heroku-push-client
 	@heroku container:release web --app restauranteur-client
 
-heroku-release-strapi:
+heroku-release-strapi: heroku-push-strapi
 	@heroku container:release web --app restauranteur-strapi

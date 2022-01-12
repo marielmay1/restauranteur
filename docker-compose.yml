@@ -3,22 +3,22 @@ services:
   client:
     build: 'packages/client/.'
     env_file:
-      - ./environment/client/prod.env
+      - ./environment/client/local.env
     ports:
       - '3000:3000'
-#    depends_on:
-#      - strapi
-#  strapi:
-#    build: 'packages/strapi/.'
-#    ports:
-#      - '1337:1337'
-#    env_file:
-#      - environment/strapi/local.env
-#    depends_on:
-#      - postgres
-#  postgres:
-#    image: 'postgres:13.5'
-#    volumes:
-#      - ./packages/postgres/data:/var/lib/postgresql/data
-#    env_file:
-#      - environment/postgres/local.env
+    depends_on:
+      - strapi
+  strapi:
+    build: 'packages/strapi/.'
+    ports:
+      - '1337:1337'
+    env_file:
+      - environment/strapi/local.env
+    depends_on:
+      - postgres
+  postgres:
+    image: 'postgres:13.5'
+    volumes:
+      - ./packages/postgres/data:/var/lib/postgresql/data
+    env_file:
+      - environment/postgres/local.env

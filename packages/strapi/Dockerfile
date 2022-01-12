@@ -2,6 +2,7 @@ FROM strapi/strapi
 
 WORKDIR /srv/app
 
+ENV STRAPI_HOST_URL http://localhost:1337
 ENV DATABASE_CONNECTOR mongo
 ENV DATABASE_CLIENT mongo
 ENV DATABASE_NAME strapi
