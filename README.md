@@ -75,7 +75,7 @@ make heroku-release
 
 - [REST Documentation](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest-api.html)
 - [GraphQL Documentation](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/graphql-api.html)
-- [Interactive Documentation](http://localhost:1337/graphql)
+- [Interactive Documentation](https://restauranteur-strapi.herokuapp.com/graphql)
 
 ## Features 
 
