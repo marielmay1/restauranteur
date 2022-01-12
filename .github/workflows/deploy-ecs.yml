@@ -64,7 +64,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           make build
-          make tag
 #          make push
 #      - name: Fill in the new image ID in the Amazon ECS task definition
 #        id: task-def

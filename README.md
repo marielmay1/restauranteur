@@ -1,5 +1,8 @@
-#Next-React Frontend for Restaurants
-Exercise03 is full rendering
+# Next-React Frontend for Restaurants
+
+[Restaurant App](https://restauranteur-client.herokuapp.com/)
+[Admin Console](https://restauranteur-strapi.herokuapp.com/admin/)
+
 <img src = 'packages/docs/assets/restaurants.png'>
 
 ## use yarn and then yarn dev to run the code
@@ -26,6 +29,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+## Network Diagram 
+<img src = 'packages/docs/assets/network-diagram.png'>
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -40,6 +47,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Deploy on Heroku 
+
+1. Build docker images
+
+```bash 
+make build 
+```
+
+2. Push images to Heroku
+
+```bash
+make heroku-push
+```
+
+3. Deploy Application
+
+```bash
+make heroku-release
+```
+
+## Backend API Documentation 
+
+- [REST Documentation](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest-api.html)
+- [GraphQL Documentation](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/graphql-api.html)
+- [Interactive Documentation](http://localhost:1337/graphql)
 
 ## Features 
 

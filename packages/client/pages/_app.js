@@ -7,6 +7,7 @@ import {ApolloProvider, ApolloClient, HttpLink, InMemoryCache} from "@apollo/cli
 import config from "../components/config";
 
 function MyApp(props) {
+    console.log('STRAPI_API_HOST:', process.env.NEXT_PUBLIC_STRAPI_API_HOST)
     let {isAuthenticated, cart, resetCart, addItem, removeItem, user, setUser, toast, setToast} = useContext(AppContext)
     const [userState, setUserState] = useState({
         user, isAuthenticated

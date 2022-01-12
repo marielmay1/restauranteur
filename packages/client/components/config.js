@@ -1,5 +1,1 @@
-export default {
-    api: {
-        host: process.env.STRAPI_API_HOST || "http://localhost:1337"
-    }
-};
+export default { api: { host: process.env.NEXT_PUBLIC_STRAPI_API_HOST } };

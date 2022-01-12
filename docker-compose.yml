@@ -2,20 +2,23 @@ version: '3'
 services:
   client:
     build: 'packages/client/.'
-    environment:
-      - PORT=${PORT}
+    env_file:
+      - ./environment/client/prod.env
     ports:
       - '3000:3000'
-    depends_on:
-      - strapi
-  strapi:
-    build: 'packages/strapi/.'
-    ports:
-      - '1337:1337'
-    depends_on:
-      - mongo
-
-  mongo:
-    build: 'packages/mongo/.'
-    logging:
-      driver: none
+#    depends_on:
+#      - strapi
+#  strapi:
+#    build: 'packages/strapi/.'
+#    ports:
+#      - '1337:1337'
+#    env_file:
+#      - environment/strapi/local.env
+#    depends_on:
+#      - postgres
+#  postgres:
+#    image: 'postgres:13.5'
+#    volumes:
+#      - ./packages/postgres/data:/var/lib/postgresql/data
+#    env_file:
+#      - environment/postgres/local.env
