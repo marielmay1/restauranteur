@@ -13,12 +13,12 @@ services:
     ports:
       - '1337:1337'
     env_file:
-      - environment/strapi/local.env
-    depends_on:
-      - postgres
-  postgres:
-    image: 'postgres:13.5'
-    volumes:
-      - ./packages/postgres/data:/var/lib/postgresql/data
-    env_file:
-      - environment/postgres/local.env
+      - environment/strapi/prod.env
+#    depends_on:
+#      - postgres
+#  postgres:
+#    image: 'postgres:13.5'
+#    volumes:
+#      - ./packages/postgres/data:/var/lib/postgresql/data
+#    env_file:
+#      - environment/postgres/local.env

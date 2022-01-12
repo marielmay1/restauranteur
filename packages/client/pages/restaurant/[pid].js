@@ -18,6 +18,7 @@ function Restauraunt() {
         id
         name
         description
+        image_url
         image {
           url
         }
@@ -26,6 +27,7 @@ function Restauraunt() {
           name
           description
           price
+          image_url
           image {
             url
           }

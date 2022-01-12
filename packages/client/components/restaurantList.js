@@ -10,7 +10,6 @@ import {
     Row,
     Col
 } from "reactstrap";
-import config from "./config"
 
 function RestaurantList(props) {
     const GET_RESTAURANTS = gql`
@@ -19,6 +18,7 @@ function RestaurantList(props) {
         id
         name
         description
+        image_url
         image {
           url
         }
@@ -43,7 +43,7 @@ function RestaurantList(props) {
                         top={true}
                         style={{height: 200}}
                         src={
-                            config.api.host + res.image.url
+                            res.image_url
                         }
                     />
                     <CardBody>
