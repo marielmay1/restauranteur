@@ -32,6 +32,9 @@
     },
     "dishes": {
       "collection": "dish"
+    },
+    "image_url": {
+      "type": "text"
     }
   }
 }
